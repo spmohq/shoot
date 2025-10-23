@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Strategic Article Prompt Generator</title>
+  <link rel="icon" href="spm.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #1f2937;
+      --bg-gradient-end: #111827;
+      --card-bg: rgba(31, 41, 55, 0.5);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-primary: #f9fafb;
+      --text-secondary: #d1d5db;
+      --text-heading: #ffffff;
+      --accent-primary: #22d3ee;
+      --accent-hover: #67e8f9;
+      --accent-success: #34d399;
+      --input-bg: #374151;
+      --code-bg: rgba(0, 0, 0, 0.3);
+      --shadow-color: rgba(0, 0, 0, 0.25);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    p.subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 25px;
+      margin-bottom: 40px;
+    }
+    .input-section h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .form-grid {
+      display: grid;
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: var(--text-primary);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.3);
+    }
+    .prompts-container {
+      display: grid;
+      gap: 30px;
+    }
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px 0 var(--shadow-color);
+    }
+    .prompt-card h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+      flex-grow: 1;
+      margin-bottom: 20px;
+      border: 1px solid var(--card-border);
+    }
+    .copy-button {
+      align-self: flex-end;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--bg-gradient-end);
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      transform: scale(1.05);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .copy-button .icon {
+      width: 16px;
+      height: 16px;
+    }
+    .copy-button .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    .footer {
+      padding-top: 30px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 15px; }
+      h1 { font-size: 2rem; }
+      .input-section h2, .prompt-card h2 { font-size: 1.4rem; }
+      .prompt-text, .form-group input, .form-group textarea { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Strategic Article Prompt Generator</h1>
+      <p class="subtitle">Fill in the details below to generate tailored writing prompts for your business.</p>
+    </header>
+
+    <main>
+      <div class="input-section">
+        <h2>Your Information</h2>
+        <div class="form-grid" id="inputContainer">
+          <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input type="text" id="productName" placeholder="e.g., The Simple Article System">
+          </div>
+          <div class="form-group">
+            <label for="productUrl">Product URL</label>
+            <input type="text" id="productUrl" placeholder="https://example.com/product">
+          </div>
+          <div class="form-group">
+            <label for="realChallenge">Real Challenge</label>
+            <textarea id="realChallenge" placeholder="e.g., Struggling to write content that sells"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="realSituation">Real Situation</label>
+            <textarea id="realSituation" placeholder="e.g., Confidently publishing articles that attract buyers"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="yourAudience">Your Audience (Who) with Inability</label>
+            <textarea id="yourAudience" placeholder="e.g., New creators who can't consistently attract clients"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="painPoint">Pain Point of Your Audience (What)</label>
+            <textarea id="painPoint" placeholder="e.g., Spending hours writing with no tangible results or sales"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="yourOffer">Your Offer (How)</label>
+            <textarea id="yourOffer" placeholder="e.g., A step-by-step course on writing and selling"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="prompts-container" id="promptsContainer">
+        
+        <div class="prompt-card">
+          <h2>Prompt 1: Required Info Summary</h2>
+          <pre id="prompt1Output" class="prompt-text"></pre>
+          <button class="copy-button" data-target="prompt1Output">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <div class="prompt-card">
+          <h2>Prompt 2: Full Article Generation</h2>
+          <pre id="prompt2Output" class="prompt-text"></pre>
+          <button class="copy-button" data-target="prompt2Output">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const inputContainer = document.getElementById('inputContainer');
+      const prompt1OutputEl = document.getElementById('prompt1Output');
+      const prompt2OutputEl = document.getElementById('prompt2Output');
+
+      const inputs = {
+        productName: document.getElementById('productName'),
+        productUrl: document.getElementById('productUrl'),
+        realChallenge: document.getElementById('realChallenge'),
+        realSituation: document.getElementById('realSituation'),
+        yourAudience: document.getElementById('yourAudience'),
+        painPoint: document.getElementById('painPoint'),
+        yourOffer: document.getElementById('yourOffer'),
+      };
+
+      function generatePrompts() {
+        const values = {
+          productName: inputs.productName.value || '[Product Name]',
+          productUrl: inputs.productUrl.value || '[Product URL]',
+          realChallenge: inputs.realChallenge.value || '[Real Challenge]',
+          realSituation: inputs.realSituation.value || '[Real Situation]',
+          yourAudience: inputs.yourAudience.value || '[Your Audience (Who) with Inability of Your Audience]',
+          painPoint: inputs.painPoint.value || '[The Pain Point of Your Audience (What)]',
+          yourOffer: inputs.yourOffer.value || '[Your Offer (How)]',
+        };
+
+        const transformation = `From "${values.realChallenge}" -> To "${values.realSituation}"`;
+
+        // Generate Prompt 1
+        prompt1OutputEl.textContent = `Required Info:
+
+1, Product Name:
+${values.productName}
+
+2, Product URL:
+${values.productUrl}
+
+3, Real Challenge:
+${values.realChallenge}
+
+4, Real Situation:
+${values.realSituation}
+
+5, Your Audience (Who) - (Inability of Your Audience):
+${values.yourAudience}
+
+6, Their Transformation (What):
+${transformation}
+
+7, Their Pain Point (What):
+${values.painPoint}
+
+8, Your Offer (How):
+${values.yourOffer}`;
+
+        // Generate Prompt 2
+        prompt2OutputEl.textContent = `You are a strategic writing assistant helping me build a simple writing-based business using the “Write → Link → Sell → Repeat” system.
+
+This article you write must:
+
+Help readers move from “${values.realChallenge}” → “${values.realSituation}.”
+
+Here’s my info:
+
+1, Product Name:
+${values.productName}
+
+2, Product URL:
+${values.productUrl}
+
+3, Real Challenge:
+${values.realChallenge}
+
+4, Real Situation:
+${values.realSituation}
+
+5, Your Audience (Who) - (Inability of Your Audience):
+${values.yourAudience}
+
+6, Their Transformation (What):
+${transformation}
+
+7, Their Pain Point (What):
+${values.painPoint}
+
+8, Your Offer (How):
+${values.yourOffer}
+
+Stay aligned with my selected content objective (to help them overcome their inability so that they are transformed from "${values.realChallenge}" -> To "${values.realSituation}" and ultimately get them selves free from their pain, mentioned above) so the article supports the reader’s transformation and naturally connects to my offer — "${values.productName}".
+
+Maintain my brand tone: Practical, encouraging, and reflective — never hypey or salesy.
+
+Now, write a complete article following the structure below.
+
+🧱 Article Structure (strictly follow)
+
+Headline: [Curiosity / Benefit / Specificity]
+Hook (1–2 short paragraphs): [grab attention; show a result or pain]
+Problem (1–2 paragraphs): [why most people fail; relatable]
+Mini story or example (1 paragraph): [real or hypothetical]
+Solution (3–6 actionable steps or insights): [what works — short, tactical]
+Proof / micro-case (1 paragraph): [result, metric, quote]
+Offer pitch / CTA (short): [what to click; what they get; one line on risk/urgency]
+PS or Bonus (optional): [extra incentive or FAQ link]
+
+Inline CTA: place a subtle link in the body where it naturally fits.
+End CTA: final paragraph + clear button/link to the offer or opt-in.
+Use 2 CTAs in this article: a contextual inline CTA and a final “buy/learn more” CTA.
+
+🗣️ Tone & Audience
+
+Tone: Practical, clear, lightly reflective, and confidence-building.
+Audience: ${values.yourAudience}. 
+Pain Point of Audience: ${values.painPoint}
+
+Output:
+
+A finished article (700–900 words) ready for publication.`;
+      }
+
+      // Initial prompt generation on page load
+      generatePrompts();
+
+      // Update prompts on any input change
+      inputContainer.addEventListener('input', generatePrompts);
+
+      // Event delegation for copy buttons
+      document.body.addEventListener('click', (event) => {
+        const button = event.target.closest('.copy-button');
+        if (!button) return;
+
+        const targetId = button.dataset.target;
+        const textToCopy = document.getElementById(targetId).textContent;
+        const buttonTextEl = button.querySelector('.button-text');
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalText = buttonTextEl.textContent;
+          buttonTextEl.textContent = 'Copied!';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            buttonTextEl.textContent = originalText;
+            button.classList.remove('copied');
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy text: ', err);
+          alert('Failed to copy text. Please try again.');
+        });
+      });
+    });
+  </script>
+
+  <footer class="footer">
+      <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>
