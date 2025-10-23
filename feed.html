@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+    /* --- Base Styles & Resets --- */
+    :root {
+        --bg-color: #f7f8fc;
+        --card-bg-color: #ffffff;
+        --text-color: #333333;
+        --heading-color: #1a202c;
+        --link-color: #3498db;
+        --link-hover-color: #2980b9;
+        --shadow-color: rgba(0, 0, 0, 0.05);
+        --border-color: #e2e8f0;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+
+    /* --- Layout & Container --- */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+    }
+
+    .main-heading {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--heading-color);
+    }
+
+    /* --- Grid System for Responsive Cards --- */
+    .card-grid {
+        display: grid;
+        /* This is the magic for responsiveness:
+           - It creates as many columns as can fit.
+           - Each column will be a minimum of 300px wide.
+           - They will share the extra space equally (1fr). */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    /* --- Card Styling --- */
+    .card {
+        background-color: var(--card-bg-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px var(--shadow-color);
+        border: 1px solid var(--border-color);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--heading-color);
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.75rem;
+    }
+
+    /* --- List & Link Styling --- */
+    .card ul {
+        list-style-type: none;
+    }
+
+    .card li {
+        margin-bottom: 0.75rem;
+        font-weight: 300;
+    }
+
+    .card a {
+        color: var(--link-color);
+        text-decoration: none;
+        font-weight: 400;
+        transition: color 0.2s ease-in-out;
+    }
+
+    .card a:hover {
+        color: var(--link-hover-color);
+        text-decoration: underline;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="main-heading">Feed Dashboard</h1>
+
+    <div class="card-grid">
+
+        <div class="card">
+            <h2 class="card-title">Dashboard</h2>
+            <ul>
+                <li><a href="https://programmablesearchengine.google.com/controlpanel/all" target="_blank" rel="noopener noreferrer">Programmable Search Engine</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Profile Genie</h2>
+            <ul>
+                <li><a href="platform-planner.html" target="_blank" rel="noopener noreferrer">Platform Planner</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Comment</h2>
+            <ul>
+                <li><a href="comment-genie.html" target="_blank" rel="noopener noreferrer">Comment Genie</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Informative Contents with Insights</h2>
+            <ul>
+                <li>Sale Value</li>
+                <li>How-to Instructional</li>
+                <li>(1)14</li>
+                <li>(2)14</li>
+                <li>(3)14</li>
+                <li><a href="restructure-medium-article.html" target="_blank" rel="noopener noreferrer">Restructure Medium Article</a></li>
+                <li><a href="restructure-medium-article.html" target="_blank" rel="noopener noreferrer">Feature Image</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Instructional How-to</h2>
+            <ul>
+                <li>Sale Value</li>
+                <li>How-to Instructional</li>
+                <li>(1)14</li>
+                <li>(2)14</li>
+                <li>(3)14</li>
+                <li><a href="http://restructure-medium-article.html" target="_blank" rel="noopener noreferrer">Restructure Medium Article</a></li>
+                <li><a href="http://restructure-medium-article.html" target="_blank" rel="noopener noreferrer">Feature Image</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">AAA based on Product</h2>
+            <ul>
+                <li><a href="aa-with-pp.html" target="_blank" rel="noopener noreferrer">aa-with-pp</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">HTML for PDF</h2>
+            <ul>
+                <li>a</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Gumroad Listing</h2>
+            <ul>
+                <li>g</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
