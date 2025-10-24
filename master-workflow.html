@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MASTER WORKFLOW</title>
+  <link rel="icon" href="spm.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #1f2937;
+      --bg-gradient-end: #111827;
+      --card-bg: rgba(31, 41, 55, 0.5); /* Semi-transparent card background */
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-primary: #f9fafb;
+      --text-secondary: #d1d5db;
+      --text-heading: #ffffff;
+      --accent-primary: #22d3ee;
+      --accent-hover: #67e8f9;
+      --accent-success: #34d399;
+      --input-bg: #374151;
+      --code-bg: rgba(0, 0, 0, 0.3);
+      --shadow-color: rgba(0, 0, 0, 0.25);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    p.subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .prompts-container {
+      display: grid;
+      gap: 30px;
+    }
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); /* For Safari */
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px 0 var(--shadow-color);
+    }
+    .prompt-card h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .prompt-description {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+      flex-grow: 1;
+      margin-bottom: 20px;
+      border: 1px solid var(--card-border);
+    }
+    .copy-button {
+      align-self: flex-end;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--bg-gradient-end);
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      transform: scale(1.05);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .copy-button .icon {
+      width: 16px;
+      height: 16px;
+    }
+    .copy-button .copied-icon {
+        display: none;
+    }
+    .copy-button.copied .copy-icon {
+        display: none;
+    }
+    .copy-button.copied .copied-icon {
+        display: inline-block;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 15px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .prompt-card h2 {
+        font-size: 1.4rem;
+      }
+      .prompt-text {
+          font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>MASTER WORKFLOW</h1>
+      <p class="subtitle">AFFILIATE PRODUCT LEAD MAGNET & FUNNEL CREATION</p>
+    </header>
+
+    <main>
+      <div class="prompts-container" id="promptsContainer">
+        
+        <!-- STAGE 1 -->
+        <div class="prompt-card">
+          <h2>STAGE 1 – PRODUCT UNDERSTANDING AND LEAD MAGNET IDEA</h2>
+          <p class="prompt-description">(Product Understanding and Lead Magnet Idea)</p>
+          <pre id="prompt1" class="prompt-text">I will upload or paste the sales page or product information of an affiliate product that I want to promote online.
+Please read and analyze it carefully.
+
+Then, based on that information, give me:
+
+1. A clear summary of the product — including its name, target audience, problems it solves, key benefits, and unique selling points.
+2. A list of 3–5 possible lead magnet ideas that would attract the same target audience. Each lead magnet idea should be educational, valuable, and designed to build trust before introducing the product.
+3. A brief description (2–3 sentences) explaining how each lead magnet idea connects naturally to the affiliate product and why it would appeal to the target audience.
+
+Your goal is to help me choose the best idea for my lead magnet — one that aligns perfectly with the product’s value proposition and audience’s needs.</pre>
+          <button class="copy-button" data-target="prompt1">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+        
+        <!-- STAGE 2 -->
+        <div class="prompt-card">
+          <h2>STAGE 2 – KEYWORDS, KEYPHRASES, AND HASHTAGS</h2>
+          <p class="prompt-description">(Keyword, Keyphrase, and Hashtag Research)</p>
+          <pre id="prompt2" class="prompt-text">Now that you know what the product is and what lead magnet I’ll create to promote it, please do the following:
+
+1. Give me a bullet list of keywords and key phrases I can use to find similar content to read and learn from. These should be suitable for setting up Google Alerts or using in Google’s Professional Search Engine to stay updated on my niche.
+2. Give me a second bullet list of keywords, key phrases, and hashtags that I can use to find and engage with social media posts relevant to my niche — particularly for commenting and joining conversations.
+
+Both lists should:
+
+* Reflect my target audience’s problems, desires, and goals.
+* Include a mix of short-tail and long-tail terms.
+* Stay relevant to the product and lead magnet theme.
+* Be useful for content discovery and social media engagement.</pre>
+          <button class="copy-button" data-target="prompt2">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- STAGE 3 -->
+        <div class="prompt-card">
+          <h2>STAGE 3 – BRAND ALIGNMENT AND PROFILE CREATION</h2>
+          <p class="prompt-description">(About Me, Social Media Title, and Banner Text)</p>
+          <pre id="prompt3" class="prompt-text">Now that you know the product I want to sell, the lead magnet I’ll use to build my opt-in list, and the keywords and hashtags I’ll focus on, please help me align my personal brand with these elements.
+
+1. Write an “About Me” statement that matches my online activities — especially my content creation, niche engagement, and affiliate marketing goals. It should sound authentic, trustworthy, and audience-focused.
+2. Suggest a strong and concise social media title (headline or tagline) that captures my role, value, and niche appeal.
+3. Write the text for my social media profile banner — short, benefit-driven, and emotionally appealing. It should communicate what I do, who I help, and why my content matters.
+
+Ensure all three reflect the same personality, mission, and audience focus. The tone should be professional, friendly, and motivational.</pre>
+          <button class="copy-button" data-target="prompt3">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- STAGE 4 -->
+        <div class="prompt-card">
+          <h2>STAGE 4 – LEAD MAGNET OUTLINE CREATION</h2>
+          <p class="prompt-description">(Lead Magnet Outline)</p>
+          <pre id="prompt4" class="prompt-text">Now that you’ve helped me identify my product, lead magnet idea, keywords, and personal brand direction, please create a complete outline for my lead magnet.
+
+The lead magnet should:
+
+* Educate the reader on their core problem.
+* Build trust and authority.
+* Naturally prepare them for the affiliate product without naming it directly.
+
+Your outline should include:
+
+1. Title (catchy and benefit-driven)
+2. Introduction (why this problem matters)
+3. Section 1: Understanding the Problem
+4. Section 2: Common but Ineffective Solutions
+5. Section 3: Smarter Strategies or a New Approach
+6. Section 4: Action Checklist (5–7 key steps)
+7. Section 5: Next Step Teaser (hinting toward the affiliate product solution)
+
+Keep it audience-focused, practical, and curiosity-driven.</pre>
+          <button class="copy-button" data-target="prompt4">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- STAGE 5 -->
+        <div class="prompt-card">
+          <h2>STAGE 5 – LEAD MAGNET WRITING</h2>
+          <p class="prompt-description">(Write the Full Lead Magnet)</p>
+          <pre id="prompt5" class="prompt-text">Now, using the outline you created and everything we’ve discussed so far (product, audience, and tone), write the full lead magnet report of about 1,000–1,500 words.
+
+The report should:
+
+* Educate and inspire readers.
+* Explain what to do and why to do it, but not reveal exactly how to do it.
+* Use the product’s problem statements and benefits as reference points.
+* End with a clear action checklist and a teaser paragraph introducing that an easier or more complete solution will be revealed next (leading to the affiliate product).
+
+Keep it practical, positive, and trust-building — like a helpful guide from a friendly expert.</pre>
+          <button class="copy-button" data-target="prompt5">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- STAGE 6 -->
+        <div class="prompt-card">
+          <h2>STAGE 6 – AFFILIATE OFFER (OTO) SECTION</h2>
+          <p class="prompt-description">(Affiliate Offer Section)</p>
+          <pre id="prompt6" class="prompt-text">Append an OTO (One-Time Offer) section at the end of the lead magnet that introduces the affiliate product naturally.
+
+Include:
+
+* A smooth transition paragraph connecting the lead magnet’s topic to the product.
+* A headline introducing the product by name.
+* 2–3 paragraphs explaining what it does and why it’s a great solution.
+* 4–6 bullet points summarizing its key features and benefits.
+* A short call-to-action paragraph inviting readers to learn more or try it.
+
+Keep the tone friendly, confident, and helpful — not salesy.</pre>
+          <button class="copy-button" data-target="prompt6">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- STAGE 7 -->
+        <div class="prompt-card">
+          <h2>STAGE 7 – LEAD CAPTURE PAGE COPY</h2>
+          <p class="prompt-description">(Lead Capture Page and Thank-You Copy)</p>
+          <pre id="prompt7" class="prompt-text">Now write persuasive copy for a landing page that offers my free lead magnet in exchange for an email.
+
+Include:
+
+* Headline
+* Subheadline
+* Short description (1–2 paragraphs)
+* “What You’ll Learn” or “Inside This Free Report” bullet list (3–5 points)
+* Clear call-to-action button text
+
+Optionally, also write a short Thank-You Page headline and paragraph to confirm the subscription and deliver the free report.
+
+The copy should be benefit-focused, curiosity-driven, and aligned with the report’s theme.</pre>
+          <button class="copy-button" data-target="prompt7">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- STAGE 8 -->
+        <div class="prompt-card">
+          <h2>STAGE 8 – WELCOME EMAIL</h2>
+          <p class="prompt-description">(Welcome and Thank-You Email)</p>
+          <pre id="prompt8" class="prompt-text">Finally, write a friendly and engaging welcome email to be sent immediately after someone opts in for my lead magnet.
+
+The email should:
+
+* Thank the subscriber for joining.
+* Provide the download link.
+* Briefly recap the value of the report.
+* Naturally mention the affiliate product as the next logical step.
+* End with a soft call-to-action and warm closing.
+
+Email format:
+Subject Line:
+Body:
+Hi [First Name],
+[Thank-you + link + short reminder of value]
+[1–2 insights from the report]
+[Transition to introduce the product naturally]
+[Soft CTA + link]
+[Warm closing]
+
+Tone: friendly, sincere, and conversational — like a genuine recommendation, not a hard pitch.</pre>
+          <button class="copy-button" data-target="prompt8">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- STAGE 9 -->
+        <div class="prompt-card">
+          <h2>STAGE 9 – FIND THE RIGHT GUMROAD CATEGORY</h2>
+          <p class="prompt-description">(Find the Most Relevant Gumroad Category)</p>
+          <pre id="prompt9" class="prompt-text">Now that you know the product I’m promoting, the lead magnet I’ve created, and the niche it belongs to, please help me determine the most appropriate category and tags for listing it on Gumroad.com.
+
+1. Suggest the best-fit category (or subcategory, if available) that matches the topic, audience, and purpose of my lead magnet.
+2. Recommend 5–10 relevant tags that align with both the lead magnet’s content and the affiliate product’s niche.
+3. For each tag, briefly explain why it is relevant — focusing on how users might search for similar content or solutions.
+4. If there are multiple possible categories, list the top 2 or 3 and briefly explain which one would likely perform best based on Gumroad’s buyer behavior.
+
+Make sure your suggestions are based on Gumroad’s most relevant and active categories, considering topics like online business, digital marketing, productivity, personal development, health, AI tools, and similar areas where appropriate.
+
+Your goal is to ensure my lead magnet reaches the right audience and appears in the most discoverable place on Gumroad.</pre>
+          <button class="copy-button" data-target="prompt9">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- STAGE 10 -->
+        <div class="prompt-card">
+          <h2>STAGE 10 – WRITE GUMROAD SALES COPY</h2>
+          <p class="prompt-description">(Write Gumroad Sales Copy for My Free Lead Magnet)</p>
+          <pre id="prompt10" class="prompt-text">Now, write scroll-stopping sales copy for listing my free lead magnet on Gumroad.com.
+Assume I’m offering it for free instead of creating a separate lead capture page.
+
+The copy should:
+
+1. Grab attention instantly with a powerful headline and first sentence that hooks readers.
+2. Clearly describe what the lead magnet is, who it’s for, and what problem it helps solve.
+3. Build curiosity and desire by explaining what readers will learn or gain, without giving away everything.
+4. End with a short, emotionally engaging call-to-action inviting users to “Get it free” or “Download now.”
+
+Include these sections in your output:
+
+* Headline
+* Subheadline (optional but punchy)
+* Short Description (2–3 engaging paragraphs)
+* Bullet Points (3–5 benefits or key takeaways from the lead magnet)
+* Closing Line (motivational call-to-action to download)
+
+Tone: conversational, inspiring, and benefit-focused — similar to high-performing Gumroad listings.
+Avoid sounding overly promotional; instead, make it feel like a helpful free resource that provides genuine value and naturally attracts my target niche audience.
+
+If possible, subtly hint at the deeper opportunity or “next step” without naming the affiliate product directly.</pre>
+          <button class="copy-button" data-target="prompt10">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const promptsContainer = document.getElementById('promptsContainer');
+
+      // Event delegation for the copy button
+      promptsContainer.addEventListener('click', (event) => {
+        const button = event.target.closest('.copy-button');
+        if (!button) return;
+
+        const targetId = button.dataset.target;
+        const textToCopy = document.getElementById(targetId).textContent;
+        const buttonTextEl = button.querySelector('.button-text');
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalText = buttonTextEl.textContent;
+          buttonTextEl.textContent = 'Copied!';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            buttonTextEl.textContent = originalText;
+            button.classList.remove('copied');
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy text: ', err);
+          alert('Failed to copy text. Please try again.');
+        });
+      });
+    });
+  </script>
+
+  <footer class="footer">
+      <div style="padding-top: 30px;">&nbsp;</div>
+      <center><p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p></center>
+  </footer>
+
+</body>
+</html>
